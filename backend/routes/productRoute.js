@@ -20,7 +20,7 @@ router.get("/products/:id",getProductById);
 router.post("/products",createProduct);
 
 // update the/a product
-router.put("/products/:id",updateProduct);
+router.post("/products/:id",updateProduct);
 
 // product medelet
 router.delete("/products/:id", deleteProduct);

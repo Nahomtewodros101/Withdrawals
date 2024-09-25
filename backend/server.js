@@ -6,8 +6,8 @@ import cors from "cors";
 import staticMiddleware from "./middleware/staticMiddleware.js";
 import errorHandler from "./middleware/errorHandler.js";
 import path from "path";
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 Dotenv.config();
 
 const mango = process.env.Mongo_URI;
@@ -17,7 +17,6 @@ const port = process.env.Port;
 app.use(express.json());
 
 app.use(cors());
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -36,5 +35,5 @@ mongoose
     console.error("error tefetrual man", error);
   });
 
-app.use("/api", productRoute);
+app.use("/api", productRoute)
 app.use(errorHandler);
