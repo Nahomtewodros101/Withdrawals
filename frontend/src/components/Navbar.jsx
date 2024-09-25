@@ -26,7 +26,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="flex items-center sticky top-0 justify-between m-3 bg-slate-200 rounded-xl p-4 h-20 z-10">
+    <nav className="flex items-center sticky top-0 justify-between m-3 bg-transparent bg-zinc-300  rounded-xl p-4 h-20 z-20">
       <p
         onClick={scrollToTop}
         onMouseEnter={() => setIsHovered(true)}
