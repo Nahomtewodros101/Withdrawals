@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-custom-gray bg-custom-pattern;
+}
+
+body {
+  font-family: "Roboto Mono", monospace; /* Apply to the whole body */
+}
+
+.withdrawals {
+  font-family: "Roboto Mono", monospace; /* Apply to withdrawals */
+}
+
+.nav-links a {
+  font-family: "Roboto Mono", monospace; /* Apply to nav links */
+}
+
+::selection {
+  background-color: rgba(86, 74, 80, 0.06); /* Change to your desired color */
+  color: white; /* Change the text color if needed */
+}
