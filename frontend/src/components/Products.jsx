@@ -27,7 +27,7 @@ const Products = () => {
   return (
     <section
       id="products"
-      className="bg-zinc-300 min-h-[100vh] flex flex-col justify-start items-center p-8"
+      className="bg-zinc-300 opacity-90 min-h-[100vh] flex flex-col justify-start items-center p-8"
     >
       <h1 className="text-3xl font-bold mb-6">Products</h1>
       <button
