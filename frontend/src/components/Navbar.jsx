@@ -5,6 +5,7 @@ const Navbar = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
+    // logo animation with gsap
     const animation = isHovered
       ? gsap.to(".withdrawals", {
           x: 100,
@@ -15,18 +16,24 @@ const Navbar = () => {
 
     return () => animation.kill();
   }, [isHovered]);
+  // --------------------------------------
 
+  // section routing
   const scrollToProducts = (e) => {
-    e.preventDefault(); // Prevent default anchor behavior
+    e.preventDefault();
     document.getElementById("products").scrollIntoView({ behavior: "smooth" });
   };
   const scrollToTop = (e) => {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const scrollToAbout = (e) => {
+    e.preventDefault();
+    document.getElementById("about").scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
-    <nav className="flex items-center sticky top-0 justify-between m-3 bg-transparent bg-zinc-300  rounded-xl p-4 h-20 z-20">
+    <nav className="flex items-center sticky top-0 justify-between m-3  bg-transparent rounded-xl p-4 h-20 z-20">
       <p
         onClick={scrollToTop}
         onMouseEnter={() => setIsHovered(true)}
@@ -46,7 +53,9 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a href="/" className="hover:text-zinc-800 font-bold">
+          <a href="About"
+            id="#about"
+            onClick={scrollToAbout}className="hover:text-zinc-800 font-bold"  >
             About
           </a>
         </li>
