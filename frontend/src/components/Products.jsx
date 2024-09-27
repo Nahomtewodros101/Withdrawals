@@ -32,7 +32,7 @@ const Products = () => {
       <h1 className="text-3xl font-bold mb-6">Products</h1>
       <button
         onClick={isVisable}
-        className="rounded-3xl bg-zinc-800 text-white p-3 mb-8 hover:bg-transparent transition-colors duration-500"
+        className="rounded-3xl bg-zinc-800 text-white p-3 mb-8 hover:bg-transparent hover:text-zinc-800 transition-colors duration-500"
       >
         {showProducts ? "Hide Products" : "Go To Products"}
       </button>

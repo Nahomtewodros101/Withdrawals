@@ -20,6 +20,6 @@ body {
 }
 
 ::selection {
-  background-color: rgba(86, 74, 80, 0.06); /* Change to your desired color */
-  color: white; /* Change the text color if needed */
+  background-color: rgba(86, 74, 80, 0.06); 
+  color: white; 
 }
