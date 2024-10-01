@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { gsap } from "gsap";
-import { AuthContext } from "../AuthContext"; // Adjust the path as necessary
+import { AuthContext } from "../context/AuthContext"; // Adjust the path as necessary
 
 const Navbar = () => {
   const [isHovered, setIsHovered] = useState(false);

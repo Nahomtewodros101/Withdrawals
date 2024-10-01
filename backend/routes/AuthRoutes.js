@@ -4,13 +4,22 @@ import jwt from "jsonwebtoken";
 import { body, validationResult } from "express-validator";
 import User from "../models/user";
 import dotenv from 'dotenv'; 
+import rateLimit from 'express-rate-limit';
 
 dotenv.config(); 
 
 const router = express.Router(); 
 
+const registerLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes window
+  max: 5, // Limit each IP to 5 registration attempts per windowMs
+  message: 'Too many registration attempts. Please try again after 15 minutes.'
+});
+
+
 router.post(
   '/register',
+  registerLimiter, 
   [
     body('email').isEmail(),
     body('password').isLength({ min: 6 }),

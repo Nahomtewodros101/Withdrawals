@@ -1,12 +1,17 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Products from "./components/Products";
 import About from "./components/About";
-import Login from "./components/Login"; 
-import Register from "./components/Register";
-import { AuthProvider, AuthContext } from './AuthContext';
-import { useContext } from 'react';
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
+import { AuthProvider, AuthContext } from "./context/AuthContext.jsx";
+import { useContext } from "react";
 
 function App() {
   return (
@@ -16,11 +21,15 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Hero />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route 
-              path="/shop" 
-              element={<ProtectedRoute><Products /></ProtectedRoute>} 
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
+            <Route
+              path="/shop"
+              element={
+                <ProtectedRoute>
+                  <Products />
+                </ProtectedRoute>
+              }
             />
             <Route path="/about" element={<About />} />
           </Routes>
