@@ -1,68 +1,105 @@
-// controllers/productController.js
-import Product from "../models/productModel.js";
+import Product from "../models/productModel.js"; // Import your Product model
 
 // Get all products
-export const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
+    const products = await Product.find(); // Fetch all products from the database
     res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while fetching products" });
+    res.status(500).json({ message: "Error fetching products", error });
   }
 };
 
 // Get a product by ID
-export const getProductById = async (req, res) => {
+const getProductById = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(id);
     if (!product) {
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ message: "Product not found" });
     }
     res.status(200).json(product);
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while fetching the product" });
+    res.status(500).json({ message: "Error fetching product", error });
   }
 };
 
 // Create a new product
-export const createProduct = async (req, res) => {
-  const { name, price, description, imageUrl } = req.body;
-  const newProduct = new Product({ name, price, description, imageUrl });
+const createProduct = async (req, res) => {
+  const { name, price, description } = req.body;
+
+  if (!name || !price) {
+    return res.status(400).json({ message: "Name and price are required" });
+  }
+
+  const product = new Product({
+    name,
+    price,
+    description,
+  });
+
   try {
-    const savedProduct = await newProduct.save();
-    res.status(201).json(savedProduct);
+    const savedProduct = await product.save(); // Save product to the database
+    res.status(201).json({
+      message: "Product created successfully",
+      product: savedProduct,
+    });
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while creating the product" });
+    res.status(500).json({ message: "Error creating product", error });
   }
 };
 
-// Update a product
-export const updateProduct = async (req, res) => {
-  const { name, price, description, imageUrl } = req.body;
+// Update a product by ID
+const updateProduct = async (req, res) => {
+  const { id } = req.params;
+  const { name, price, description } = req.body;
+
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
-      { name, price, description, imageUrl },
-      { new: true }
+      id,
+      { name, price, description },
+      { new: true, runValidators: true } // Returns the updated document
     );
+
     if (!updatedProduct) {
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ message: "Product not found" });
     }
-    res.status(200).json(updatedProduct);
+
+    res.status(200).json({
+      message: "Product updated successfully",
+      product: updatedProduct,
+    });
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while updating the product" });
+    res.status(500).json({ message: "Error updating product", error });
   }
 };
 
-// Delete a product
-export const deleteProduct = async (req, res) => {
+// Delete a product by ID
+const deleteProduct = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    const deletedProduct = await Product.findByIdAndDelete(id);
+
     if (!deletedProduct) {
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ message: "Product not found" });
     }
-    res.status(200).json({ message: `Successfully deleted product: ${deletedProduct.name}` });
+
+    res.status(200).json({
+      message: "Product deleted successfully",
+      product: deletedProduct,
+    });
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while deleting the product" });
+    res.status(500).json({ message: "Error deleting product", error });
   }
+};
+
+// Export functions using ES module syntax
+export {
+  getAllProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
 };

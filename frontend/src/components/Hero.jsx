@@ -6,10 +6,8 @@ const Hero = () => {
       <h1 className="text-[5rem] backdrop-blur text-zinc-600 font-extrabold">
         Welcome To Withdrawals
       </h1>
-      
     </section>
   );
 };
 
 export default Hero;
-

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const Products = () => {
   const [showProducts, setShowProducts] = useState(false);
@@ -6,23 +6,21 @@ const Products = () => {
 
   const isVisable = () => {
     setShowProducts(!showProducts);
+
+    if (!showProducts) {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      fetch("http://localhost:8000/api/products")
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result);
+          setProducts(result);
+        })
+
+        .catch((error) => console.error(error));
+    }
   };
-
-  useEffect(() => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      redirect: "follow",
-    };
-
-    fetch("http://localhost:8000/api/products", requestOptions)
-      .then((response) => response.json())
-      .then((result) => setProducts(result))
-      .catch((error) => console.error(error));
-  }, []);
 
   return (
     <section
@@ -54,7 +52,7 @@ const Products = () => {
             >
               <img
                 src={product.imageUrl}
-                alt={product.name}
+                alt={product.image}
                 className="w-full h-48 object-cover rounded-md mb-4"
               />
               <h2 className="text-xl font-bold text-zinc-800 mb-2">

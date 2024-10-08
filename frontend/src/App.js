@@ -1,47 +1,65 @@
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
-  Route,
   Routes,
+  Route,
   Navigate,
 } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import Products from "./components/Products";
-import About from "./components/About";
-import LoginForm from "./components/LoginForm";
-import RegisterForm from "./components/RegisterForm";
-import { AuthProvider, AuthContext } from "./context/AuthContext.jsx";
-import { useContext } from "react";
+import Login from "./components/LoginForm"; // Import your Login component
+import Register from "./components/RegisterForm"; // Import your Register component
+import Products from "./components/Products"; // Import your Products component
+import About from "./components/About"; // Import your About component
+import Navbar from "./components/Navbar"; // Import your Navbar component
+import Hero from "./components/Hero"; // Import your Hero component
+import { AuthContext } from "./context/AuthContext";
 
-function App() {
+const App = () => {
+  const [token, setToken] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check for the presence of a token (e.g., in localStorage or a global state)
+    const token = localStorage.getItem("authToken"); // Change according to where you store the token
+    if (token) {
+      setToken(token);
+      setIsAuthenticated(true); // Set authenticated state if token exists
+    }
+  }, []);
+
+  // Protected route component to handle redirects if the user is not authenticated
+  const ProtectedRoute = ({ element }) => {
+    return isAuthenticated ? element : <Navigate to="/login" />;
+  };
+
   return (
-    <AuthProvider>
+    <AuthContext.Provider value={{ token, setToken }}>
       <Router>
-        <div className="min-h-screen bg-custom-gray bg-custom-pattern">
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Hero />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
-            <Route
-              path="/shop"
-              element={
-                <ProtectedRoute>
-                  <Products />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/about" element={<About />} />
-          </Routes>
+        {/* Sticky Navbar */}
+        <div className="sticky top-0 z-50"> 
+          <Navbar /> {/* Render the Navbar regardless of authentication state */}
         </div>
-      </Router>
-    </AuthProvider>
-  );
-}
 
-const ProtectedRoute = ({ children }) => {
-  const { token } = useContext(AuthContext);
-  return token ? children : <Navigate to="/login" />;
+        {/* Hero section right below the sticky navbar */}
+        <Hero />
+
+        {/* Main Routes */}
+        <Routes>
+          {/* Public routes */}
+          <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+          <Route path="/register" element={<Register />} />
+          
+          {/* Protected routes */}
+          <Route
+            path="/home"
+            element={<ProtectedRoute element={<div><Products /><About /></div>} />}
+          />
+
+          {/* Default route (redirect to login) */}
+          <Route path="/" element={<Navigate to="/login" />} />
+        </Routes>
+      </Router>
+    </AuthContext.Provider>
+  );
 };
 
 export default App;

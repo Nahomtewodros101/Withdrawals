@@ -1,39 +1,29 @@
 import express from "express";
 import mongoose from "mongoose";
 import Dotenv from "dotenv";
-import productRoute from "./routes/productRoute.js"; // Include .js extension
+import productRoute from "./routes/productRoute.js"; 
+import userRoute from "./routes/userRoutes.js"; 
 import cors from "cors";
-import staticMiddleware from "./middleware/staticMiddleware.js";
 import errorHandler from "./middleware/errorHandler.js";
-import path from "path";
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+
 Dotenv.config();
 
-const mango = process.env.Mongo_URI;
 const app = express();
 const port = process.env.Port;
 
 app.use(express.json());
-
 app.use(cors());
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-app.use("/images", express.static(path.join(__dirname, "public/images")));
-
-mongoose
-  .connect(mango)
+mongoose.connect(process.env.Mongo_URI)
   .then(() => {
     app.listen(port, () => {
-      console.log(
-        `serveru is runnin on ${port} ena demo mongo connect adergual `
-      );
+      console.log(`Server running on port ${port}`);
     });
   })
   .catch((error) => {
-    console.error("error tefetrual man", error);
+    console.error("MongoDB connection error:", error);
   });
 
-app.use("/api", productRoute)
+app.use("/api", productRoute);
+app.use("/api/users", userRoute); // Ensure this line is present
 app.use(errorHandler);

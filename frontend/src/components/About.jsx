@@ -6,6 +6,7 @@ const About = () => {
   const [email, setEmail] = useState("");
   const [comment, setComment] = useState("");
   const [showForm, setShowForm] = useState(false);
+
   useEffect(() => {
     const flicker = () => {
       gsap.to(".withdrawals-text", {
@@ -16,21 +17,19 @@ const About = () => {
         ease: "power1.inOut",
       });
     };
-
     flicker();
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     console.log("Email:", email);
     console.log("Comment:", comment);
-
     setEmail("");
     setComment("");
   };
-  const trigger = () => {
-    setShowForm(!showForm);
+
+  const toggleForm = () => {
+    setShowForm((prev) => !prev);
   };
 
   return (
@@ -40,7 +39,6 @@ const About = () => {
         className="bg-zinc-300 opacity-60 h-[100vh] flex flex-col justify-start items-center p-8"
       >
         <h1 className="text-3xl font-bold mb-6">About</h1>
-
         <div className="text-slate-900 font-extrabold shadow-2xl shadow-slate-950 flex flex-col items-center justify-start p-[5rem] rounded-2xl mt-[10rem] bg-gray-500 h-[30rem] w-[80rem]">
           <h1 className="text-2xl font-bold mb-4 bg-slate-200 p-2 rounded-lg">
             About Us
@@ -65,7 +63,7 @@ const About = () => {
       </section>
 
       <aside className="flex justify-center items-center bg-gray-300 opacity-80 p-6 h-[20rem] mt-10">
-        <ul className="flex space-x-20  ">
+        <ul className="flex space-x-10">
           <li>
             <a
               href="https://facebook.com/nahom101"
@@ -87,7 +85,7 @@ const About = () => {
               className="text-zinc-600 hover:animate-spin"
             >
               <FaTwitter
-                className="hover:text-white transition-colors duration-500 "
+                className="hover:text-white transition-colors duration-500"
                 size={40}
               />
             </a>
@@ -107,12 +105,12 @@ const About = () => {
           </li>
         </ul>
         <button
-          onClick={trigger}
+          onClick={toggleForm}
           className="rounded-3xl bg-zinc-800 text-white m-5 font-semibold p-2 hover:bg-transparent hover:text-zinc-800 transition-colors duration-500"
         >
-          {showForm ? "Share A comment?" : "Done"}
+          {showForm ? "Cancel Comment" : "Share A Comment?"}
         </button>
-        {!showForm && (
+        {showForm && (
           <form
             onSubmit={handleSubmit}
             className="m-10 flex text-black flex-col items-center"
@@ -130,11 +128,11 @@ const About = () => {
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               required
-              className="p-2 mb-4 border bg-gay-400 border-gray-400 rounded h-24"
+              className="p-2 mb-4 border bg-gray-400 border-gray-400 rounded h-24"
             />
             <button
               type="submit"
-              className="bg-zinc-600  hover:text-zinc-800 transition-colors duration-500 hover:bg-white text-white p-2 rounded"
+              className="bg-zinc-600 hover:text-zinc-800 transition-colors duration-500 hover:bg-white text-white p-2 rounded"
             >
               Submit
             </button>

@@ -4,7 +4,8 @@ import { AuthContext } from "../context/AuthContext"; // Adjust the path as nece
 
 const Navbar = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const { token, setToken } = useContext(AuthContext); // Access token and setToken from AuthContext
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State to control mobile menu visibility
+  const { token, setToken } = useContext(AuthContext);
 
   useEffect(() => {
     const animation = isHovered
@@ -20,24 +21,31 @@ const Navbar = () => {
 
   const scrollToProducts = (e) => {
     e.preventDefault();
-    document.getElementById("products").scrollIntoView({ behavior: "smooth" });
+    const productsElement = document.getElementById("products");
+    if (productsElement) {
+      productsElement.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.error('Element with id "products" not found');
+    }
   };
+
   const scrollToTop = (e) => {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
   const scrollToAbout = (e) => {
     e.preventDefault();
-    document.getElementById("about").scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleLogout = () => {
-    setToken(null); // Clear the token on logout
-    localStorage.removeItem('token'); // Optionally remove the token from localStorage
+    const aboutElement = document.getElementById("about");
+    if (aboutElement) {
+      aboutElement.scrollIntoView({ behavior: "smooth" });
+    } else {
+      console.error('Element with id "about" not found');
+    }
   };
 
   return (
-    <nav className="flex items-center sticky top-0 justify-between m-3 bg-transparent rounded-xl p-4 h-20 z-20">
+    <nav className="flex items-center justify-between m-3 bg-transparent text-zinc-800 p-3 h-20 z-20">
       <p
         onClick={scrollToTop}
         onMouseEnter={() => setIsHovered(true)}
@@ -46,12 +54,22 @@ const Navbar = () => {
       >
         Withdrawals™
       </p>
-      <ul className="nav-links flex gap-6 text-lg text-zinc-600 ml-16">
+
+      {/* Hamburger Icon for Mobile Menu */}
+      <button
+        className="md:hidden text-2xl p-2 focus:outline-none"
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        ☰
+      </button>
+
+      {/* Links for Desktop */}
+      <ul className="nav-links hidden md:flex gap-6 text-lg ml-16">
         <li>
           <a
             href="#products"
             onClick={scrollToProducts}
-            className="hover:text-zinc-800 font-bold"
+            className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
           >
             Products
           </a>
@@ -60,32 +78,88 @@ const Navbar = () => {
           <a
             href="#about"
             onClick={scrollToAbout}
-            className="hover:text-zinc-800 font-bold"
+            className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
           >
             About
           </a>
         </li>
-        {token ? ( // Conditionally render Logout button if logged in
+        <li>
+          <a
+            href="/login"
+            className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
+          >
+            Login
+          </a>
+        </li>
+        <li>
+          <a
+            href="/register"
+            className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
+          >
+            Register
+          </a>
+        </li>
+        {token && (
           <li>
-            <button onClick={handleLogout} className="hover:text-zinc-800 font-bold">
+            <button
+              onClick={() => setToken(null)}
+              className="hover:text-white hover:bg-slate-600 rounded-3xl p-0.5 font-bold"
+            >
               Logout
             </button>
           </li>
-        ) : (
-          <>
-            <li>
-              <a href="/login" className="hover:text-zinc-800 font-bold">
-                Login
-              </a>
-            </li>
-            <li>
-              <a href="/register" className="hover:text-zinc-800 font-bold">
-                Register
-              </a>
-            </li>
-          </>
         )}
       </ul>
+
+      {/* Mobile Menu Links */}
+      {isMobileMenuOpen && (
+        <ul className="nav-links flex flex-col gap-4 text-lg bg-slate-200 rounded-lg p-4 md:hidden absolute top-16 right-4">
+          <li>
+            <a
+              href="#products"
+              onClick={scrollToProducts}
+              className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
+            >
+              Products
+            </a>
+          </li>
+          <li>
+            <a
+              href="#about"
+              onClick={scrollToAbout}
+              className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
+            >
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              href="/login"
+              className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
+            >
+              Login
+            </a>
+          </li>
+          <li>
+            <a
+              href="/register"
+              className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
+            >
+              Register
+            </a>
+          </li>
+          {token && (
+            <li>
+              <button
+                onClick={() => setToken(null)}
+                className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
+              >
+                Logout
+              </button>
+            </li>
+          )}
+        </ul>
+      )}
     </nav>
   );
 };
