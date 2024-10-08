@@ -12,13 +12,12 @@ const Products = () => {
       myHeaders.append("Content-Type", "application/json");
 
       fetch("http://localhost:8000/api/products")
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result);
-          setProducts(result);
-        })
-
-        .catch((error) => console.error(error));
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data); // Check the structure of the response
+    setProducts(data); // Set products to the response data
+  })
+  .catch((error) => console.error(error));
     }
   };
 

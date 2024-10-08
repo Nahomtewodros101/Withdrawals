@@ -25,6 +25,6 @@ mongoose
     console.error("MongoDB connection error:", error);
   });
 
-app.use("/api/products", productRoute);
+app.use("/api", productRoute);
 app.use("/api/users", userRoute); // Ensure this line is present
 app.use(errorHandler);

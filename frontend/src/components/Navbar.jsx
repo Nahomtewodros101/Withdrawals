@@ -99,20 +99,10 @@ const Navbar = () => {
             Register
           </a>
         </li>
-        {token && (
-          <li>
-            <button
-              onClick={() => setToken(null)}
-              className="hover:text-white hover:bg-slate-600 rounded-3xl p-0.5 font-bold"
-            >
-              Logout
-            </button>
-          </li>
-        )}
       </ul>
 
       {/* Mobile Menu Links */}
-      {isMobileMenuOpen && (
+      {isMobileMenuOpen && token && (
         <ul className="nav-links flex flex-col gap-4 text-lg bg-slate-200 rounded-lg p-4 md:hidden absolute top-16 right-4">
           <li>
             <a
@@ -148,16 +138,15 @@ const Navbar = () => {
               Register
             </a>
           </li>
-          {token && (
-            <li>
-              <button
-                onClick={() => setToken(null)}
-                className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
-              >
-                Logout
-              </button>
-            </li>
-          )}
+
+          <li>
+            <button
+              onClick={() => setToken(null)}
+              className="hover:text-white hover:bg-slate-600 rounded-3xl p-2 font-bold"
+            >
+              Logout
+            </button>
+          </li>
         </ul>
       )}
     </nav>

@@ -1,23 +1,24 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Correctly import useNavigate
 import axios from "axios";
 
 const RegisterForm = () => {
-  const [name, setName] = useState(""); // Changed from username to name
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await axios.post("http://localhost:8000/api/users", {
-        name,  
+        name,
         email,
         password,
       });
-      
+      navigate("/home"); // Navigate after successful registration
     } catch (error) {
       console.error(error.response.data);
-      
     }
   };
 
@@ -33,9 +34,9 @@ const RegisterForm = () => {
         <h2 className="text-center text-xl font-semibold mb-4">Register</h2>
         <input
           type="text"
-          placeholder="Name"  
-          value={name}  
-          onChange={(e) => setName(e.target.value)}  
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
           required
           className="border border-gray-300 rounded-lg p-2 mb-4 w-full"
         />
