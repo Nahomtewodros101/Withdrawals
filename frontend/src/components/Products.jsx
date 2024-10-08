@@ -26,7 +26,7 @@ const Products = () => {
       id="products"
       className="bg-zinc-300 opacity-90 min-h-[100vh] flex flex-col justify-start items-center p-8"
     >
-      <h1 className="text-3xl font-bold mb-6">Products</h1>
+      <h1 className="text-3xl text-zinc-500 font-bold mb-6">Products</h1>
       <button
         onClick={isVisable}
         className="rounded-3xl bg-zinc-800 text-white p-3 mb-8 hover:bg-transparent hover:text-zinc-800 transition-colors duration-500"
